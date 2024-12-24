@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yes/No Journey</title>
+    <style>
+        /* Background Animation */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f0f0f0, #d3d3d3);
+            background-size: 400% 400%;
+            animation: gradientBackground 10s ease infinite;
+            color: #333;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Gradient Background Animation */
+        @keyframes gradientBackground {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* Container Styling */
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
+            max-width: 400px;
+            width: 100%;
+            animation: fadeIn 1s ease-out;
+            z-index: 2;
+        }
+
+        /* Fade In Animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Button Styling */
+        .button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            background-color: #333;
+            color: white;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .button:hover {
+            background-color: #555;
+            transform: translateY(-3px);
+        }
+
+        /* Fade in for question text */
+        #question {
+            animation: textFade 0.8s ease-out;
+        }
+
+        @keyframes textFade {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Hidden class to manage transitions */
+        .hidden {
+            display: none;
+        }
+
+        /* Sticker Decoration */
+        .sticker {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            opacity: 0.8;
+            transition: transform 0.3s ease;
+        }
+
+        .sticker:hover {
+            transform: scale(1.1) rotate(10deg);
+        }
+
+        /* Sticker positions */
+        .sticker1 {
+            top: 10%;
+            left: 5%;
+            background-image: url('https://example.com/sticker1.png');
+        }
+
+        .sticker2 {
+            top: 20%;
+            right: 5%;
+            background-image: url('https://example.com/sticker2.png');
+        }
+
+        .sticker3 {
+            bottom: 15%;
+            left: 15%;
+            background-image: url('https://example.com/sticker3.png');
+        }
+
+        .sticker4 {
+            bottom: 20%;
+            right: 10%;
+            background-image: url('https://example.com/sticker4.png');
+        }
+
+        /* Sticker Styling */
+        .sticker {
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1 id="question">Are you Sun?</h1>
+        <button id="yesBtn" class="button">Yes</button>
+        <button id="noBtn" class="button">No</button>
+        <button id="nextBtn" class="button hidden">Next</button>
+    </div>
+
+    <!-- Decorative Stickers -->
+    <div class="sticker sticker1"></div>
+    <div class="sticker sticker2"></div>
+    <div class="sticker sticker3"></div>
+    <div class="sticker sticker4"></div>
+    <script>
+        // Content sequence for each 'Yes' response
+        const messages = [
+            "kharrrrrrrrrrrrrrrrr!",
+            "Kiyu lgha apko apki tareef hogi?",
+            "Naeroyaaaa, botkalhiraaaa.......actually, ummm, yk what????",
+            "Yea I know I've been mad over small things, yea I get negative sometimes, yea I overreact and overthink, but this all comes from the fear of losing you. I can't lose you, I love you the most, duh...",
+            "Here's a little something for you:",
+            "أنا أحبك", // Arabic
+            "ਮੈਂ ਤੁਹਾਨੂੰ ਪਿਆਰ ਕਰਦਾ ਹਾਂ", // Punjabi
+            "사랑해요", // Korean
+            "Kocham cię", // Polish
+            "я тебя люблю", // Russian
+            "Je t'aime",
+            "Ich liebe dich",
+            "Ik hou van jou",
+            "I know you must be tired of me by now, sorryyyy...",
+            "You are mine, nyaku"
+        ];
+
+        // Element selection
+        const question = document.getElementById('question');
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+        let index = 0;
+
+        // Event listeners
+        yesBtn.addEventListener('click', () => {
+            yesBtn.classList.add('hidden');
+            noBtn.classList.add('hidden');
+            question.textContent = messages[index];
+            nextBtn.classList.remove('hidden');
+        });
+
+        noBtn.addEventListener('click', () => {
+            question.textContent = "Then get out, you ain't needed!";
+            yesBtn.classList.add('hidden');
+            noBtn.classList.add('hidden');
+        });
+
+        nextBtn.addEventListener('click', () => {
+            index++;
+            if (index < messages.length) {
+                question.textContent = messages[index];
+                question.style.animation = 'textFade 0.8s ease-out'; // Apply fade animation
+            } else {
+                question.textContent = "End of journey!";
+                nextBtn.classList.add('hidden');
+            }
+        });
+    </script>
+</body>
+
+</html>
